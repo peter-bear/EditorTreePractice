@@ -52,6 +52,8 @@ public class Node {
 		this.data = data;
 		this.left = left;
 		this.right = right;
+		this.balance = Code.SAME;
+		this.rank = 0;
 	}
 
 	public Node(char data) {
@@ -93,4 +95,86 @@ public class Node {
 	
 	// TODO: By the end of milestone 1, consider if you want to use the graphical debugger. See
 	// the unit test throwing an error and the README.txt file.
+	
+	public Node add(char ch, int pos) {
+		if(this == NULL_NODE) {
+			return new Node(ch);
+		}
+		
+		if(this.rank >= pos) {
+			this.rank++;
+			this.balance = Code.LEFT;
+			this.left = this.left.add(ch, pos);
+		}else if(this.rank < pos) {
+			this.balance = Code.RIGHT;
+			this.right = this.right.add(ch, pos-(this.rank+1));
+		}
+		
+//		if(this.left != NULL_NODE) {
+//			//single right rotate
+//			if(this.balance == Code.LEFT && this.left.balance == Code.LEFT) {
+//				return this.singleRightRotate();
+//			}
+//			//double right rotate (rotate left and rotate right)
+//			else if(this.balance == Code.LEFT && this.left.balance == Code.RIGHT) {
+//				return this.doubleRightRotate();
+//			}
+//		}
+//		if(this.right != NULL_NODE) {
+//			//single left rotate
+//			if(this.balance == Code.RIGHT && this.right.balance == Code.RIGHT) {
+//				return this.singleLeftRotate();
+//			}
+//			//double left rotate (rotate right and rotate left)
+//			else if(this.balance == Code.RIGHT && this.right.balance == Code.LEFT) {
+//				return this.doubleLeftRotate();
+//			}
+//		}
+//		
+//		if(this.left != NULL_NODE && this.right != NULL_NODE) {
+//			if(this.left.balance == Code.SAME && this.right.balance == Code.SAME)
+//				this.balance = Code.SAME;
+//		}
+		
+		return this;
+	}
+	
+	private Node singleLeftRotate() {
+		Node tmp = this.right;
+		this.right = tmp.left;
+		tmp.left = this;
+		tmp.balance = Code.SAME;
+		this.balance = Code.SAME;
+		
+		return tmp;
+	}
+	
+	private Node singleRightRotate() {
+		Node tmp = this.left;
+		this.left = tmp.right;
+		tmp.right = this;
+		tmp.balance = Code.SAME;
+		this.balance = Code.SAME;
+		
+		return tmp;
+	}
+	
+	private Node doubleLeftRotate() {
+		this.right = this.right.singleRightRotate();
+		return this.singleLeftRotate();
+	}
+	
+	private Node doubleRightRotate() {
+		this.left = this.left.singleLeftRotate();
+		return this.singleRightRotate();
+	}
+
+	public String toRankString() {
+		// TODO Auto-generated method stub
+		if(this == NULL_NODE)
+			return "";
+		return this.data+""+this.rank+", " +this.left.toRankString() + this.right.toRankString();
+	}
+	
+	
 }

@@ -90,8 +90,12 @@ public class EditTree {
 		// you!
 		// 2. Unit tests are cumulative, and many things are based on add(), so
 		// make sure that you get this one correct.
-		
-		this.add(ch, size-1);
+		if(this.size == 0) {
+			this.root = new Node(ch);
+			this.size++;
+			return;
+		}
+		this.add(ch, size);
 
 	}
 
@@ -108,8 +112,11 @@ public class EditTree {
 	 */
 	public void add(char ch, int pos)  {
 		// You can use your O(1) size field/method to determine if the index is valid.
-		if(pos <0 || pos>= size)
+		if(pos <0 || pos> size)
 				throw new IndexOutOfBoundsException();
+		
+		this.root = this.root.add(ch, pos);
+		size++;
 		
 	}
 
@@ -127,7 +134,10 @@ public class EditTree {
 	 *         the tree.
 	 */
 	public String toRankString() {
-		return ""; // replace by a real calculation.
+		String rst = this.root.toRankString();
+		if(rst.length()>0)
+			rst = rst.substring(0, rst.length()-2);
+		return "["+rst+"]"; // replace by a real calculation.
 	}
 
 	/**
