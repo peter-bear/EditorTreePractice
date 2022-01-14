@@ -175,6 +175,27 @@ public class Node {
 			return "";
 		return this.data+""+this.rank+", " +this.left.toRankString() + this.right.toRankString();
 	}
+
+	public char get(int pos) {
+		// TODO Auto-generated method stub
+		if(this.rank == pos)
+			return this.data;
+		else if(this.rank > pos)
+			return this.left.get(pos);
+		else
+			return this.right.get(pos-this.rank-1);
+	}
+
+	public boolean rankMatch() {
+		// TODO Auto-generated method stub
+		if(this == NULL_NODE)
+			return true;
+		
+		boolean cur = (this.rank == this.left.slowSize());
+		boolean left = this.left.rankMatch() ;
+		boolean right = this.right.rankMatch();
+		return cur && left && right;
+	}
 	
 	
 }

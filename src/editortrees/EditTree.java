@@ -152,7 +152,10 @@ public class EditTree {
 	 *                                   field/method to determine this.
 	 */
 	public char get(int pos) throws IndexOutOfBoundsException {
-		return '%'; // replace by a real O(log n) calculation.
+		if(pos < 0 || pos >= size)
+			throw new IndexOutOfBoundsException();
+		
+		return this.root.get(pos); // replace by a real O(log n) calculation.
 	}
 
 	// MILESTONE 1: They next two "slow" methods are useful for testing, debugging 
@@ -193,7 +196,8 @@ public class EditTree {
 	 * @return True iff each node's rank correctly equals its left subtree's size.
 	 */
 	public boolean ranksMatchLeftSubtreeSize() {
-		return false; // replace by a real calculation.
+		
+		return this.root.rankMatch(); // replace by a real calculation.
 	}
 
 	/**
